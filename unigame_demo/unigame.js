@@ -31,6 +31,9 @@ if( typeof Rust === "undefined" ) {
 
     const __imports = {
         env: {
+            "__extjs_81d99dd180b9769eb1e2b2849590216cf5c21704": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
+            },
             "__extjs_a316bcb4c088cc4946fb65fe0972e7956d19f38e": function($0, $1, $2, $3) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
             },
@@ -121,6 +124,9 @@ if( typeof Rust === "undefined" ) {
             "__extjs_57ef58fe0b276c744c6a153de3d30abea69035ad": function($0, $1, $2) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); ctx.bindTexture (($2), null)})());
             },
+            "__extjs_2fa3c6d4e62c3c9bde02f559088e872455683e75": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); ctx.blendFunc (($2), ($3))})());
+            },
             "__extjs_7ca89decec0f19f700c1bb935e0aa0e8763da618": function($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) {
                 var ctx = Module.gl.get($0);
                             var loc = Module.gl.get($1);   
@@ -150,20 +156,11 @@ if( typeof Rust === "undefined" ) {
             "__extjs_6aca5422976ad7d136d81f83c0d207d51890ba71": function($0, $1, $2, $3, $4) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);$4 = Module.STDWEB.to_js($4);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); return ctx.texParameteri (($2), ($3), ($4))})());
             },
-            "__extjs_50cbd3119b7e04a174c88cd33e066670f47cff08": function($0, $1, $2, $3, $4) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);$4 = Module.STDWEB.to_js($4);Module.STDWEB.from_js($0, (function(){(($1)). width = ($2); ($3). height = ($4);})());
-            },
-            "__extjs_54f989d4d962d339471cfe7f64168fa3685c474a": function($0, $1) {
-                $1 = Module.STDWEB.to_js($1);Module.STDWEB.from_js($0, (function(){var div = ($1); div.id = "caption" ; div.style.position = "fixed" ; div.style.top = "580px" ; div.style.left = "5px" ; div.style.padding = "5px" ; div.style.backgroundColor = "lightblue" ; div.style.textAlign = "center" ;})());
-            },
-            "__extjs_90b48540188f65d522556bd319099cef7dbcb8ca": function($0, $1) {
-                $1 = Module.STDWEB.to_js($1);Module.STDWEB.from_js($0, (function(){var div = ($1); div.id = "fps" ; div.style.position = "fixed" ; div.style.top = "5px" ; div.style.left = "5px" ; div.style.padding = "5px" ; div.style.backgroundColor = "lightblue" ; div.style.textAlign = "center" ;})());
-            },
             "__extjs_0163a7b9931afad462b1dba99c29c07b53e4aded": function($0) {
                 Module.STDWEB.from_js($0, (function(){return performance.now ();})());
             },
-            "__extjs_97d57fd0d0efc52ba1778e791bddf1ded7830419": function($0, $1, $2) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){($1). innerText = "fps : " + ($2)})());
+            "__extjs_3dc794a2b52df983091923581e1f3cf97b731b97": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var oReq = new XMLHttpRequest (); var filename = ($1); oReq.open ("GET" , filename , true); oReq.responseType = "arraybuffer" ; var on_error_js = function (s){var on_error = ($2); on_error (s); on_error.drop ();}; oReq.onload = function (oEvent){var status = oReq.status ; var arrayBuffer = oReq.response ; if (status == 200 && arrayBuffer){var on_get_buffer = ($3); on_get_buffer (new Uint8Array (arrayBuffer)); on_get_buffer.drop ();}else {on_error_js ("Fail to get array buffer from network..");}}; oReq.onerror = function (oEvent){on_error_js ("Fail to read from network..");}; oReq.send (null);})());
             },
             "__extjs_ff2c75b4783fd5c9d8c934bbd4a03e66527e05e4": function($0) {
                 Module.STDWEB.tmp = Module.STDWEB.to_js( $0 );
@@ -171,8 +168,8 @@ if( typeof Rust === "undefined" ) {
             "__extjs_2339159f69df37bd6978051aaf3e31da270868de": function($0, $1) {
                 $0 = Module.STDWEB.to_js($0);$1 = Module.STDWEB.to_js($1);($0). appendChild (($1));
             },
-            "__extjs_3dc794a2b52df983091923581e1f3cf97b731b97": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var oReq = new XMLHttpRequest (); var filename = ($1); oReq.open ("GET" , filename , true); oReq.responseType = "arraybuffer" ; var on_error_js = function (s){var on_error = ($2); on_error (s); on_error.drop ();}; oReq.onload = function (oEvent){var status = oReq.status ; var arrayBuffer = oReq.response ; if (status == 200 && arrayBuffer){var on_get_buffer = ($3); on_get_buffer (new Uint8Array (arrayBuffer)); on_get_buffer.drop ();}else {on_error_js ("Fail to get array buffer from network..");}}; oReq.onerror = function (oEvent){on_error_js ("Fail to read from network..");}; oReq.send (null);})());
+            "__extjs_50cbd3119b7e04a174c88cd33e066670f47cff08": function($0, $1, $2, $3, $4) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);$4 = Module.STDWEB.to_js($4);Module.STDWEB.from_js($0, (function(){(($1)). width = ($2); ($3). height = ($4);})());
             },
             "__extjs_cf8ef57870d176e111428c0ad472311c5c8d5d07": function($0) {
                 Module.STDWEB.from_js($0, (function(){return window ;})());
@@ -216,9 +213,6 @@ if( typeof Rust === "undefined" ) {
             "__extjs_0e0435c2fbabe7db6df9fbbf664296db7d516457": function($0, $1, $2) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){return ($1). createElement (($2));})());
             },
-            "__extjs_90f666c53502013bd389c2428faec60d7354f58e": function($0, $1, $2) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){return ($1). createTextNode (($2));})());
-            },
             "__extjs_f0da9e3af46afb4353410c272d5cdc083a223958": function($0) {
                 return (Module.STDWEB.acquire_js_reference( $0 ) instanceof Uint8Array) | 0;
             },
@@ -233,9 +227,6 @@ if( typeof Rust === "undefined" ) {
             },
             "__extjs_7454d04402ec90b4dd0de9abaf2d2d650112f2e3": function($0) {
                 return (Module.STDWEB.acquire_js_reference( $0 ) instanceof MouseEvent) | 0;
-            },
-            "__extjs_81d99dd180b9769eb1e2b2849590216cf5c21704": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
             },
             "Math_acos": function($0) {
                 return Math.acos( $0 );
