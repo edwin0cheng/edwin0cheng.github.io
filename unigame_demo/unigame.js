@@ -112,6 +112,9 @@ if( typeof Rust === "undefined" ) {
             "__extjs_4f4b3e2c51fca1e660ebb7603b0e4b8037b72843": function($0, $1) {
                 $1 = Module.STDWEB.to_js($1);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); return Module.gl.add (ctx.createTexture ());})());
             },
+            "__extjs_d9baf69b1ac3094d717109f8e556d3b07b188c21": function($0, $1, $2) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); ctx.activeTexture (ctx.TEXTURE0 + ($2))})());
+            },
             "__extjs_76b738b343a6e5daabe5ffba7ff710400a5ed05f": function($0, $1, $2, $3) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); var tex = Module.gl.get (($2)); ctx.bindTexture (($3), tex)})());
             },
@@ -156,20 +159,35 @@ if( typeof Rust === "undefined" ) {
             "__extjs_6aca5422976ad7d136d81f83c0d207d51890ba71": function($0, $1, $2, $3, $4) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);$4 = Module.STDWEB.to_js($4);Module.STDWEB.from_js($0, (function(){var ctx = Module.gl.get (($1)); return ctx.texParameteri (($2), ($3), ($4))})());
             },
-            "__extjs_3dc794a2b52df983091923581e1f3cf97b731b97": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var oReq = new XMLHttpRequest (); var filename = ($1); oReq.open ("GET" , filename , true); oReq.responseType = "arraybuffer" ; var on_error_js = function (s){var on_error = ($2); on_error (s); on_error.drop ();}; oReq.onload = function (oEvent){var status = oReq.status ; var arrayBuffer = oReq.response ; if (status == 200 && arrayBuffer){var on_get_buffer = ($3); on_get_buffer (new Uint8Array (arrayBuffer)); on_get_buffer.drop ();}else {on_error_js ("Fail to get array buffer from network..");}}; oReq.onerror = function (oEvent){on_error_js ("Fail to read from network..");}; oReq.send (null);})());
-            },
-            "__extjs_2339159f69df37bd6978051aaf3e31da270868de": function($0, $1) {
-                $0 = Module.STDWEB.to_js($0);$1 = Module.STDWEB.to_js($1);($0). appendChild (($1));
+            "__extjs_0088e2fb885208bbfc4a92f3ec5c1d71feadeb9d": function($0, $1) {
+                $1 = Module.STDWEB.to_js($1);Module.STDWEB.from_js($0, (function(){console.log (($1))})());
             },
             "__extjs_ff2c75b4783fd5c9d8c934bbd4a03e66527e05e4": function($0) {
                 Module.STDWEB.tmp = Module.STDWEB.to_js( $0 );
             },
+            "__extjs_a73342213f1c8a2cf06daeee7235dc8d4de3f3cd": function($0, $1, $2, $3, $4, $5) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);$4 = Module.STDWEB.to_js($4);$5 = Module.STDWEB.to_js($5);Module.STDWEB.from_js($0, (function(){(($1)). width = ($2); ($3). height = ($4); ($5). tabIndex = 1 ;})());
+            },
+            "__extjs_3dc794a2b52df983091923581e1f3cf97b731b97": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var oReq = new XMLHttpRequest (); var filename = ($1); oReq.open ("GET" , filename , true); oReq.responseType = "arraybuffer" ; var on_error_js = function (s){var on_error = ($2); on_error (s); on_error.drop ();}; oReq.onload = function (oEvent){var status = oReq.status ; var arrayBuffer = oReq.response ; if (status == 200 && arrayBuffer){var on_get_buffer = ($3); on_get_buffer (new Uint8Array (arrayBuffer)); on_get_buffer.drop ();}else {on_error_js ("Fail to get array buffer from network..");}}; oReq.onerror = function (oEvent){on_error_js ("Fail to read from network..");}; oReq.send (null);})());
+            },
             "__extjs_0163a7b9931afad462b1dba99c29c07b53e4aded": function($0) {
                 Module.STDWEB.from_js($0, (function(){return performance.now ();})());
             },
-            "__extjs_a73342213f1c8a2cf06daeee7235dc8d4de3f3cd": function($0, $1, $2, $3, $4, $5) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);$4 = Module.STDWEB.to_js($4);$5 = Module.STDWEB.to_js($5);Module.STDWEB.from_js($0, (function(){(($1)). width = ($2); ($3). height = ($4); ($5). tabIndex = 1 ;})());
+            "__extjs_2339159f69df37bd6978051aaf3e31da270868de": function($0, $1) {
+                $0 = Module.STDWEB.to_js($0);$1 = Module.STDWEB.to_js($1);($0). appendChild (($1));
+            },
+            "__extjs_f0da9e3af46afb4353410c272d5cdc083a223958": function($0) {
+                return (Module.STDWEB.acquire_js_reference( $0 ) instanceof Uint8Array) | 0;
+            },
+            "__extjs_85c89905cb5544ba0b5b64bc057eda6a71c48586": function($0, $1) {
+                $1 = Module.STDWEB.to_js($1);Module.STDWEB.from_js($0, (function(){return ($1). length ;})());
+            },
+            "__extjs_94be576145abfa284eb52bcbf98871bcbf01d427": function($0, $1) {
+                return Module.STDWEB.acquire_rust_reference( HEAPU8.slice( $0, $1 ) );
+            },
+            "__extjs_a912800d51bd3116fa042eca2d72942d77914d5b": function($0, $1) {
+                $0 = Module.STDWEB.to_js($0);$1 = Module.STDWEB.to_js($1);var array = ($0); var pointer = ($1); HEAPU8.set (array , pointer);
             },
             "__extjs_cf8ef57870d176e111428c0ad472311c5c8d5d07": function($0) {
                 Module.STDWEB.from_js($0, (function(){return window ;})());
@@ -213,17 +231,8 @@ if( typeof Rust === "undefined" ) {
             "__extjs_0e0435c2fbabe7db6df9fbbf664296db7d516457": function($0, $1, $2) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){return ($1). createElement (($2));})());
             },
-            "__extjs_f0da9e3af46afb4353410c272d5cdc083a223958": function($0) {
-                return (Module.STDWEB.acquire_js_reference( $0 ) instanceof Uint8Array) | 0;
-            },
-            "__extjs_85c89905cb5544ba0b5b64bc057eda6a71c48586": function($0, $1) {
-                $1 = Module.STDWEB.to_js($1);Module.STDWEB.from_js($0, (function(){return ($1). length ;})());
-            },
-            "__extjs_94be576145abfa284eb52bcbf98871bcbf01d427": function($0, $1) {
-                return Module.STDWEB.acquire_rust_reference( HEAPU8.slice( $0, $1 ) );
-            },
-            "__extjs_a912800d51bd3116fa042eca2d72942d77914d5b": function($0, $1) {
-                $0 = Module.STDWEB.to_js($0);$1 = Module.STDWEB.to_js($1);var array = ($0); var pointer = ($1); HEAPU8.set (array , pointer);
+            "__extjs_81d99dd180b9769eb1e2b2849590216cf5c21704": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
             },
             "__extjs_e9d84225304abfe1f0ac0649a5e9eacd15517749": function($0) {
                 return (Module.STDWEB.acquire_js_reference( $0 ) instanceof KeyboardEvent) | 0;
@@ -233,9 +242,6 @@ if( typeof Rust === "undefined" ) {
             },
             "__extjs_7454d04402ec90b4dd0de9abaf2d2d650112f2e3": function($0) {
                 return (Module.STDWEB.acquire_js_reference( $0 ) instanceof MouseEvent) | 0;
-            },
-            "__extjs_81d99dd180b9769eb1e2b2849590216cf5c21704": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
             },
             "__extjs_a316bcb4c088cc4946fb65fe0972e7956d19f38e": function($0, $1, $2, $3) {
                 $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
@@ -248,6 +254,9 @@ if( typeof Rust === "undefined" ) {
             },
             "cosf": function($0) {
                 return Math.cos( $0 );
+            },
+            "fmodf": function($0, $1) {
+                return $0 % $1;
             },
             "sinf": function($0) {
                 return Math.sin( $0 );
@@ -274,7 +283,7 @@ if( typeof Rust === "undefined" ) {
 
         
         __imports.env.__web_on_grow();
-        Module.instance.exports.__web_main();
+        Module.instance.exports.main();
     }
 
     if( __load_asynchronously ) {
