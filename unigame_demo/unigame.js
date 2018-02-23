@@ -31,14 +31,17 @@ if( typeof Rust === "undefined" ) {
 
     const __imports = {
         env: {
-            "__extjs_5d3c36cc61f2f638680ddd0b0a8f5ee2481b0cf8": function($0, $1, $2) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){var gl = (($1)). getContext (($2)); if (! Module.gl){Module.gl = {}; Module.gl.counter = 1 ; Module.gl.matrix4x4 = new Float32Array ([1.0 , 0 , 0 , 0 , 0 , 1.0 , 0.0 , 0 , 0 , 0 , 1.0 , 0 , 0 , 0 , 0 , 1.0]); Module.gl.pool = {}; Module.gl.get = function (id){return Module.gl.pool [id];}; Module.gl.add = function (o){var c = Module.gl.counter ; Module.gl.pool [c]= o ; Module.gl.counter += 1 ; return c ;}; Module.gl.remove = function (id){delete Module.gl.pool [id]; return c ;};}return Module.gl.add (gl);})());
+            "__extjs_a316bcb4c088cc4946fb65fe0972e7956d19f38e": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
+            },
+            "__extjs_de942ef9ccd064c41dc92d5b5bf83c61aeb00278": function($0) {
+                Module.STDWEB.increment_refcount( $0 );
             },
             "__extjs_d8a439451216bbc6cd9f3012f189d2ad6a2e9459": function($0) {
                 Module.STDWEB.decrement_refcount( $0 );
             },
-            "__extjs_de942ef9ccd064c41dc92d5b5bf83c61aeb00278": function($0) {
-                Module.STDWEB.increment_refcount( $0 );
+            "__extjs_5d3c36cc61f2f638680ddd0b0a8f5ee2481b0cf8": function($0, $1, $2) {
+                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);Module.STDWEB.from_js($0, (function(){var gl = (($1)). getContext (($2)); if (! Module.gl){Module.gl = {}; Module.gl.counter = 1 ; Module.gl.matrix4x4 = new Float32Array ([1.0 , 0 , 0 , 0 , 0 , 1.0 , 0.0 , 0 , 0 , 0 , 1.0 , 0 , 0 , 0 , 0 , 1.0]); Module.gl.pool = {}; Module.gl.get = function (id){return Module.gl.pool [id];}; Module.gl.add = function (o){var c = Module.gl.counter ; Module.gl.pool [c]= o ; Module.gl.counter += 1 ; return c ;}; Module.gl.remove = function (id){delete Module.gl.pool [id]; return c ;};}return Module.gl.add (gl);})());
             },
             "__extjs_a97a27fe303b22c36ccf502dc8b1d7fd24103cc4": function($0) {
                 var ctx = Module.gl.get (($0)); return Module.gl.add (ctx.createBuffer ());
@@ -242,9 +245,6 @@ if( typeof Rust === "undefined" ) {
             },
             "__extjs_7454d04402ec90b4dd0de9abaf2d2d650112f2e3": function($0) {
                 return (Module.STDWEB.acquire_js_reference( $0 ) instanceof MouseEvent) | 0;
-            },
-            "__extjs_a316bcb4c088cc4946fb65fe0972e7956d19f38e": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB.to_js($1);$2 = Module.STDWEB.to_js($2);$3 = Module.STDWEB.to_js($3);Module.STDWEB.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
             },
             "Math_acos": function($0) {
                 return Math.acos( $0 );
