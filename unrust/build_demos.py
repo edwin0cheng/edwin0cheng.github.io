@@ -77,3 +77,8 @@ def build_example(example, *, ignore):
 if __name__ == "__main__":
     build_example("boxes", ignore=['sounds', 'sponza'])
     build_example("sponza", ignore=['sounds'])
+    build_example("sound", ignore=['sponza'])
+    build_example("postprocessing", ignore=['sounds', 'sponza'])
+    build_example("meshobj", ignore=['sounds', 'sponza'])
+    build_example("basic", ignore=['sounds', 'sponza'])
+    
