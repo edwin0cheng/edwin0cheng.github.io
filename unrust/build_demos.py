@@ -31,7 +31,9 @@ index_html_content = """
         }
 
         if(!webgl2_support()){
-            document.body.innerHTML += "Sorry, your browser do not support WebGL2."
+            document.addEventListener("load", function(){
+                document.body.innerHTML += "Sorry, your browser do not support WebGL2."
+            });
         }           
         else { 
             var Module = {};
