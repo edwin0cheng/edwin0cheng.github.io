@@ -22,16 +22,16 @@ index_html_content = """
         function webgl2_support() {
             try {
                 var canvas = document.createElement( 'canvas' );
-                return !! window.WegGLRenderingContext && (
-                    canvas.getContext('webgl2')
-                );
+                if(!canvas.getContext('webgl2')) return false;
+                return true;
             } catch ( e ) {
+                console.log(e);
                 return false;
             }
         }
 
         if(!webgl2_support()){
-            document.addEventListener("load", function(){
+            window.addEventListener("DOMContentLoaded", function(){
                 document.body.innerHTML += "Sorry, your browser do not support WebGL2."
             });
         }           
@@ -51,13 +51,18 @@ index_html_content = """
                     return canvas;
                 }
             });
+            window.addEventListener("DOMContentLoaded", function(){
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                s.src = "{{JS_FILENAME}}";
+                document.body.appendChild(s);
+            });
         }
     </script>
 
 </head>
 
 <body>
-    <script src="{{JS_FILENAME}}"></script>
     <a class="github-fork-ribbon" href="https://github.com/edwin0cheng/unrust" title="Fork me on GitHub">Fork me on GitHub</a>
 </body>
 
