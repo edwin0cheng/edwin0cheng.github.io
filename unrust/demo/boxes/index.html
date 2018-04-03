@@ -11,21 +11,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.ie.min.css" />
     <![endif]-->
     <script>
-        var Module = {};
-        var __cargo_web = {};
-        Object.defineProperty(Module, 'canvas', {
-            get: function () {
-                if (__cargo_web.canvas) {
-                    return __cargo_web.canvas;
-                }
-
-                var canvas = document.createElement('canvas');
-                document.querySelector('body').appendChild(canvas);
-                __cargo_web.canvas = canvas;
-
-                return canvas;
+        // check whether this browser support webgl2
+        function webgl2_support() {
+            try {
+                var canvas = document.createElement( 'canvas' );
+                return !! window.WegGLRenderingContext && (
+                    canvas.getContext('webgl2')
+                );
+            } catch ( e ) {
+                return false;
             }
-        });
+        }
+
+        if(!webgl2_support()){
+            document.body.innerHTML += "Sorry, your browser do not support WebGL2."
+        }           
+        else { 
+            var Module = {};
+            var __cargo_web = {};
+            Object.defineProperty(Module, 'canvas', {
+                get: function () {
+                    if (__cargo_web.canvas) {
+                        return __cargo_web.canvas;
+                    }
+
+                    var canvas = document.createElement('canvas');
+                    document.querySelector('body').appendChild(canvas);
+                    __cargo_web.canvas = canvas;
+
+                    return canvas;
+                }
+            });
+        }
     </script>
 
 </head>
