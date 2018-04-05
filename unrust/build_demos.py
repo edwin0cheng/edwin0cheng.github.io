@@ -17,7 +17,33 @@ index_html_content = """
     <!--[if lt IE 9]>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.ie.min.css" />
     <![endif]-->
+    <style>
+        .error {
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            text-align: center;
+            vertical-align: middle;
+            padding: 50vh;
+            display: block;
+        }       
+        </style>
     <script>
+
+        var original_fetch = window.fetch;
+
+        window.fetch = function() {
+            let o = original_fetch.apply(window, arguments)
+            o.catch(function(error){
+                var p = document.createElement('p');
+                p.classList.add('error');
+                p.innerHTML = "Sorry, cannot fetch wasm file from web, Maybe your ad-blocker blocked wasm file?"
+                document.body.appendChild(p);
+            });
+
+            return o;
+        }
+
         // check whether this browser support webgl2
         function webgl2_support() {
             try {
@@ -32,7 +58,10 @@ index_html_content = """
 
         if(!webgl2_support()){
             window.addEventListener("DOMContentLoaded", function(){
-                document.body.innerHTML += "Sorry, your browser do not support WebGL2."
+                var p = document.createElement('p');
+                p.classList.add('error');
+                p.innerHTML = "Sorry, your browser do not support WebGL2."
+                document.body.appendChild(p);
             });
         }           
         else { 
