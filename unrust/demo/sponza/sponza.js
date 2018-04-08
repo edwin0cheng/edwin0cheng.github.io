@@ -560,9 +560,6 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             "__extjs_b12caa2efaf855dbdd8b00a4e042776e2d4a36e6": function($0, $1, $2, $3) {
                 $0 = Module.STDWEB_PRIVATE.to_js($0);$1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);var ctx = Module.gl.get (($0)); var h = Module.gl.get (($1)); ctx.bindAttribLocation (h.prog , ($2), ($3));
             },
-            "__extjs_1814dbd23423de8fef48b8702392280db97bccf3": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var ctx = Module.gl.get (($1)); var h = Module.gl.get (($2)); var r = ctx.getAttribLocation (h.prog , ($3)); return r >= 0 ? r : null ;})());
-            },
             "__extjs_48200687e94b341eb109f1769c971bac117fd46b": function($0, $1, $2, $3) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var ctx = Module.gl.get (($1)); var h = Module.gl.get (($2)); var name = ($3); var uniform = h.uniform_names [name]; if (name in h.uniform_names)return h.uniform_names [name]; uniform = Module.gl.add (ctx.getUniformLocation (h.prog , name)); h.uniform_names [name]= uniform ; return uniform ;})());
             },
