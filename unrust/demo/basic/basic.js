@@ -308,6 +308,8 @@ Module.STDWEB_PRIVATE.to_js_string = function to_js_string( index, length ) {
 Module.STDWEB_PRIVATE.id_to_ref_map = {};
 Module.STDWEB_PRIVATE.id_to_refcount_map = {};
 Module.STDWEB_PRIVATE.ref_to_id_map = new WeakMap();
+// Not all types can be stored in a WeakMap
+Module.STDWEB_PRIVATE.ref_to_id_map_fallback = new Map();
 Module.STDWEB_PRIVATE.last_refid = 1;
 
 Module.STDWEB_PRIVATE.id_to_raw_value_map = {};
@@ -321,11 +323,19 @@ Module.STDWEB_PRIVATE.acquire_rust_reference = function( reference ) {
     var id_to_refcount_map = Module.STDWEB_PRIVATE.id_to_refcount_map;
     var id_to_ref_map = Module.STDWEB_PRIVATE.id_to_ref_map;
     var ref_to_id_map = Module.STDWEB_PRIVATE.ref_to_id_map;
+    var ref_to_id_map_fallback = Module.STDWEB_PRIVATE.ref_to_id_map_fallback;
 
     var refid = ref_to_id_map.get( reference );
     if( refid === undefined ) {
+        refid = ref_to_id_map_fallback.get( reference );
+    }
+    if( refid === undefined ) {
         refid = Module.STDWEB_PRIVATE.last_refid++;
-        ref_to_id_map.set( reference, refid );
+        try {
+            ref_to_id_map.set( reference, refid );
+        } catch (e) {
+            ref_to_id_map_fallback.set( reference, refid );
+        }
     }
 
     if( refid in id_to_ref_map ) {
@@ -348,12 +358,13 @@ Module.STDWEB_PRIVATE.increment_refcount = function( refid ) {
 
 Module.STDWEB_PRIVATE.decrement_refcount = function( refid ) {
     var id_to_refcount_map = Module.STDWEB_PRIVATE.id_to_refcount_map;
-    var id_to_ref_map = Module.STDWEB_PRIVATE.id_to_ref_map;
-    id_to_refcount_map[ refid ]--;
-    if( id_to_refcount_map[ refid ] === 0 ) {
+    if( 0 == --id_to_refcount_map[ refid ] ) {
+        var id_to_ref_map = Module.STDWEB_PRIVATE.id_to_ref_map;
+        var ref_to_id_map_fallback = Module.STDWEB_PRIVATE.ref_to_id_map_fallback;
         var reference = id_to_ref_map[ refid ];
         delete id_to_ref_map[ refid ];
         delete id_to_refcount_map[ refid ];
+        ref_to_id_map_fallback.delete(reference);
     }
 };
 
@@ -437,32 +448,8 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             "__extjs_80d6d56760c65e49b7be8b6b01c1ea861b046bf0": function($0) {
                 Module.STDWEB_PRIVATE.decrement_refcount( $0 );
             },
-            "__extjs_9f22d4ca7bc938409787341b7db181f8dd41e6df": function($0) {
-                Module.STDWEB_PRIVATE.increment_refcount( $0 );
-            },
-            "__extjs_5e0e8c7056228eabc24bab61c6d89da20d38ab62": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getBoundingClientRect (). left ;})());
-            },
-            "__extjs_4bdde544476d0ed67b473e13e2d502e4357a7ed4": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getBoundingClientRect (). top ;})());
-            },
-            "__extjs_be46082601410ad79cc753a1f76169475e7c6f74": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
-            },
             "__extjs_d220ae70d3a0134672f453b7b2651d9c11f72dbf": function($0, $1) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){console.log (($1))})());
-            },
-            "__extjs_7c5535365a3df6a4cc1f59c4a957bfce1dbfb8ee": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
-            },
-            "__extjs_d69be7afc3aa1e462c4d2c4ce3646a7a8e54201d": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). offsetWidth ;})());
-            },
-            "__extjs_eaa80141e8f33256c7c62911990ccfc9238b884d": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). offsetHeight ;})());
-            },
-            "__extjs_770a506aaacc3fea9f0be51ad402c54e7df4d528": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). button ;})());
             },
             "__extjs_efa8f7373d7a2f19930aba239a5f1c76483e6170": function($0) {
                 Module.STDWEB_PRIVATE.from_js($0, (function(){window.startPause = 0 ; window.endPause = 0 ; document.addEventListener ("visibilitychange" , (e)=> {if (document.hidden){window.startPause = performance.now ()/ 1000.0 ;}else {window.endPause = performance.now ()/ 1000.0 ;}}, false); if (AudioContext){return new AudioContext ();}else {return undefined ;}})());
@@ -479,41 +466,11 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             "__extjs_15ed99f45d4e863c93e132c2ec04856621ce5951": function($0, $1) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). sampleRate ;})());
             },
-            "__extjs_7ed1f62e776725bc93d54f5154abfb28a460024a": function($0) {
-                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof MouseEvent) | 0;
-            },
-            "__extjs_1681ea457e66a9f3c951512258a2581f67d04a83": function($0) {
-                $0 = Module.STDWEB_PRIVATE.to_js($0);($0). preventDefault ();
-            },
             "__extjs_ff5103e6cc179d13b4c7a785bdce2708fd559fc0": function($0) {
                 Module.STDWEB_PRIVATE.tmp = Module.STDWEB_PRIVATE.to_js( $0 );
             },
-            "__extjs_5ac38c9ecbb9a6f75e30e71400dabbd8d3562771": function($0) {
-                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof Event) | 0;
-            },
-            "__extjs_dafc7a42f11dfd59d938a8bf392d728f25dc1191": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). clientX ;})());
-            },
-            "__extjs_e72c0fa59b4192eaa92dc61cdc746eab194f8d89": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). clientY ;})());
-            },
-            "__extjs_6ce693459878698d92d56b499a1b2a5f6bb03b69": function($0) {
-                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof KeyboardEvent) | 0;
-            },
-            "__extjs_cda47760902a3f6393a8196b8e630279ab7d4852": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). code ;})());
-            },
-            "__extjs_7ad1b6d74ad09161e54cc3395928efc20ff7acaf": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). key ;})());
-            },
-            "__extjs_4e89aff00c1126c510f338b695a5a0517d8753c5": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). shiftKey ;})());
-            },
-            "__extjs_e6890a1cce2104cbe0b29d801480fff8ab44e962": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). altKey ;})());
-            },
-            "__extjs_631b99b439cb07e859896f2d9c69cc8d5d33f98e": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). ctrlKey ;})());
+            "__extjs_be46082601410ad79cc753a1f76169475e7c6f74": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
             },
             "__extjs_24c85f09ade4ba0c087e23df37e2aa4f80edcc7f": function($0, $1, $2) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){var gl = (($1)). getContext ("webgl2" , {alpha : false}); var version = 2 ; if (! gl){gl = (($2)). getContext ("webgl" , {alpha : false}); version = 1 ;}var ext = gl.getExtension ("WEBGL_depth_texture"); if (! Module.gl){Module.gl = {}; Module.gl.counter = 1 ; Module.gl.version = version ; Module.gl.matrix4x4 = new Float32Array ([1.0 , 0 , 0 , 0 , 0 , 1.0 , 0.0 , 0 , 0 , 0 , 1.0 , 0 , 0 , 0 , 0 , 1.0]); Module.gl.pool = {}; Module.gl.get = function (id){return Module.gl.pool [id];}; Module.gl.add = function (o){var c = Module.gl.counter ; Module.gl.pool [c]= o ; Module.gl.counter += 1 ; return c ;}; Module.gl.remove = function (id){delete Module.gl.pool [id]; return c ;}; console.log ("opengl " + gl.getParameter (gl.VERSION)); console.log ("shading language " + gl.getParameter (gl.SHADING_LANGUAGE_VERSION)); console.log ("vendor " + gl.getParameter (gl.VENDOR));}return Module.gl.add (gl);})());
@@ -697,11 +654,59 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             "__extjs_bef2b05ca56bf58d10aec554f0aea9b53d4cc99f": function($0, $1, $2) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){var ctx = Module.gl.get (($1)); ctx.bindFramebuffer (($2), null)})());
             },
+            "__extjs_9f22d4ca7bc938409787341b7db181f8dd41e6df": function($0) {
+                Module.STDWEB_PRIVATE.increment_refcount( $0 );
+            },
+            "__extjs_7ed1f62e776725bc93d54f5154abfb28a460024a": function($0) {
+                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof MouseEvent) | 0;
+            },
+            "__extjs_1681ea457e66a9f3c951512258a2581f67d04a83": function($0) {
+                $0 = Module.STDWEB_PRIVATE.to_js($0);($0). preventDefault ();
+            },
+            "__extjs_dafc7a42f11dfd59d938a8bf392d728f25dc1191": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). clientX ;})());
+            },
+            "__extjs_e72c0fa59b4192eaa92dc61cdc746eab194f8d89": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). clientY ;})());
+            },
+            "__extjs_6ce693459878698d92d56b499a1b2a5f6bb03b69": function($0) {
+                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof KeyboardEvent) | 0;
+            },
+            "__extjs_cda47760902a3f6393a8196b8e630279ab7d4852": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). code ;})());
+            },
+            "__extjs_7ad1b6d74ad09161e54cc3395928efc20ff7acaf": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). key ;})());
+            },
+            "__extjs_4e89aff00c1126c510f338b695a5a0517d8753c5": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). shiftKey ;})());
+            },
+            "__extjs_e6890a1cce2104cbe0b29d801480fff8ab44e962": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). altKey ;})());
+            },
+            "__extjs_631b99b439cb07e859896f2d9c69cc8d5d33f98e": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). ctrlKey ;})());
+            },
+            "__extjs_5ac38c9ecbb9a6f75e30e71400dabbd8d3562771": function($0) {
+                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof Event) | 0;
+            },
+            "__extjs_7c5535365a3df6a4cc1f59c4a957bfce1dbfb8ee": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
+            },
+            "__extjs_d69be7afc3aa1e462c4d2c4ce3646a7a8e54201d": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). offsetWidth ;})());
+            },
+            "__extjs_eaa80141e8f33256c7c62911990ccfc9238b884d": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). offsetHeight ;})());
+            },
             "__extjs_69920acb495ef5b5f2a2907f2b2109c50f25a632": function($0) {
                 return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof HTMLCanvasElement) | 0;
             },
             "__extjs_c47de5a40be28dc0e09993c4ef100a00e4047609": function($0, $1, $2, $3, $4, $5, $6, $7, $8, $9) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);$4 = Module.STDWEB_PRIVATE.to_js($4);$5 = Module.STDWEB_PRIVATE.to_js($5);$6 = Module.STDWEB_PRIVATE.to_js($6);$7 = Module.STDWEB_PRIVATE.to_js($7);$8 = Module.STDWEB_PRIVATE.to_js($8);$9 = Module.STDWEB_PRIVATE.to_js($9);Module.STDWEB_PRIVATE.from_js($0, (function(){var realToCSSPixels = window.devicePixelRatio ; (($1)). width = ($2)* realToCSSPixels ; (($3)). height = ($4)* realToCSSPixels ; (($5)). style.width = ($6)+ "px" ; (($7)). style.height = ($8)+ "px" ; ($9). tabIndex = 1 ;})());
+            },
+            "__extjs_b140767f6be6a4f2cccfcb584d9462d0be5b131c": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){($1). style.cursor = "none" ;})());
             },
             "__extjs_308378b7e769153240a5729ed6f8f95f43a4c1bd": function($0) {
                 Module.STDWEB_PRIVATE.from_js($0, (function(){return window.devicePixelRatio ;})());
@@ -709,17 +714,26 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             "__extjs_822794cefd39fa222ac2322af3452861a9739836": function($0, $1) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){($1). focus ();})());
             },
+            "__extjs_5e0e8c7056228eabc24bab61c6d89da20d38ab62": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getBoundingClientRect (). left ;})());
+            },
+            "__extjs_4bdde544476d0ed67b473e13e2d502e4357a7ed4": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getBoundingClientRect (). top ;})());
+            },
             "__extjs_73f90ab5e94c84c3f2a059f535da7bbae5f7290f": function($0) {
                 Module.STDWEB_PRIVATE.from_js($0, (function(){return performance.now ()/ 1000.0 ;})());
+            },
+            "__extjs_e2ff1737057da17029753c46880c43c9d757ade3": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var oReq = new XMLHttpRequest (); var filename = ($1); oReq.open ("GET" , filename , true); oReq.responseType = "arraybuffer" ; var on_error_js = function (s){var on_error = ($2); on_error (s); on_error.drop ();}; oReq.onload = function (oEvent){var status = oReq.status ; var arrayBuffer = oReq.response ; if (status == 200 && arrayBuffer){var on_get_buffer = ($3); on_get_buffer (new Uint8Array (arrayBuffer)); on_get_buffer.drop ();}else {on_error_js ("Fail to get array buffer from network..");}}; oReq.onerror = function (oEvent){on_error_js ("Fail to read from network..");}; oReq.send (null);})());
+            },
+            "__extjs_770a506aaacc3fea9f0be51ad402c54e7df4d528": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). button ;})());
             },
             "__extjs_496ebd7b1bc0e6eebd7206e8bee7671ea3b8006f": function($0, $1, $2) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). querySelector (($2));})());
             },
             "__extjs_4cc2b2ed53586a2bd32ca2206724307e82bb32ff": function($0, $1) {
                 $0 = Module.STDWEB_PRIVATE.to_js($0);$1 = Module.STDWEB_PRIVATE.to_js($1);($0). appendChild (($1));
-            },
-            "__extjs_e2ff1737057da17029753c46880c43c9d757ade3": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var oReq = new XMLHttpRequest (); var filename = ($1); oReq.open ("GET" , filename , true); oReq.responseType = "arraybuffer" ; var on_error_js = function (s){var on_error = ($2); on_error (s); on_error.drop ();}; oReq.onload = function (oEvent){var status = oReq.status ; var arrayBuffer = oReq.response ; if (status == 200 && arrayBuffer){var on_get_buffer = ($3); on_get_buffer (new Uint8Array (arrayBuffer)); on_get_buffer.drop ();}else {on_error_js ("Fail to get array buffer from network..");}}; oReq.onerror = function (oEvent){on_error_js ("Fail to read from network..");}; oReq.send (null);})());
             },
             "__extjs_86edd83003c8f6f2c5d8d1e7aac980d8ac187810": function($0) {
                 Module.STDWEB_PRIVATE.from_js($0, (function(){window.pads = []; if (navigator.getGamepads ===undefined){console.log ("warning : no gamepad support on this browser");}else {window.addEventListener ("gamepadconnected" , function (e){if (e.gamepad){console.log ("gamepad[" + e.gamepad.index + "] id " + e.gamepad.id + " connected."); window.pads [e.gamepad.index]= e.gamepad ;}}); window.addEventListener ("gamepaddisconnected" , function (e){if (e.gamepad){console.log ("gamepad[" + e.gamepad.index + "] id " + e.gamepad.id + " disconnected."); window.pads [e.gamepad.index]= undefined ;}});}})());
@@ -732,27 +746,6 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             },
             "__extjs_383ad8c6ee969f8ae1ba712e0111cc095a3abfc8": function($0, $1, $2, $3) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){if (navigator.userAgent.toLowerCase (). indexOf ("chrome")!= - 1){var gp = navigator.getGamepads (); for (var i = 0 ; i < gp.length ; i ++){if (gp [i]!= null){window.pads [gp [i]. index]= gp [i];}}}if (window.pads [($1)]){var button = window.pads [($2)]. buttons [($3)]; if (typeof button == "object"){return button.pressed ;}else {return button == 1.0 ;}}else {return false ;}})());
-            },
-            "__extjs_db0226ae1bbecd407e9880ee28ddc70fc3322d9c": function($0) {
-                $0 = Module.STDWEB_PRIVATE.to_js($0);Module.STDWEB_PRIVATE.unregister_raw_value (($0));
-            },
-            "__extjs_74d5764ddc102a8d3b6252116087a68f2db0c9d4": function($0) {
-                Module.STDWEB_PRIVATE.from_js($0, (function(){return window ;})());
-            },
-            "__extjs_1c8769c3b326d77ceb673ada3dc887cf1d509509": function($0) {
-                Module.STDWEB_PRIVATE.from_js($0, (function(){return document ;})());
-            },
-            "__extjs_a8e1d9cfe0b41d7d61b849811ad1cfba32de989b": function($0, $1, $2) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). createElement (($2));})());
-            },
-            "__extjs_dc2fd915bd92f9e9c6a3bd15174f1414eee3dbaf": function() {
-                console.error( 'Encountered a panic!' );
-            },
-            "__extjs_97495987af1720d8a9a923fa4683a7b683e3acd6": function($0, $1) {
-                console.error( 'Panic error message:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) );
-            },
-            "__extjs_72fc447820458c720c68d0d8e078ede631edd723": function($0, $1, $2) {
-                console.error( 'Panic location:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) + ':' + $2 );
             },
             "__extjs_dcbfa3eb1cc89d9842b0ad8d9030a57a7cae7124": function($0) {
                 return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof Uint8Array) | 0;
@@ -771,6 +764,27 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
             },
             "__extjs_ae2c8a52ab6d1f3f05bfe3f17211ec398cd5efc4": function($0, $1) {
                 return Module.STDWEB_PRIVATE.acquire_rust_reference( HEAPF32.slice( $0, $1 ) );
+            },
+            "__extjs_74d5764ddc102a8d3b6252116087a68f2db0c9d4": function($0) {
+                Module.STDWEB_PRIVATE.from_js($0, (function(){return window ;})());
+            },
+            "__extjs_db0226ae1bbecd407e9880ee28ddc70fc3322d9c": function($0) {
+                $0 = Module.STDWEB_PRIVATE.to_js($0);Module.STDWEB_PRIVATE.unregister_raw_value (($0));
+            },
+            "__extjs_1c8769c3b326d77ceb673ada3dc887cf1d509509": function($0) {
+                Module.STDWEB_PRIVATE.from_js($0, (function(){return document ;})());
+            },
+            "__extjs_a8e1d9cfe0b41d7d61b849811ad1cfba32de989b": function($0, $1, $2) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). createElement (($2));})());
+            },
+            "__extjs_dc2fd915bd92f9e9c6a3bd15174f1414eee3dbaf": function() {
+                console.error( 'Encountered a panic!' );
+            },
+            "__extjs_97495987af1720d8a9a923fa4683a7b683e3acd6": function($0, $1) {
+                console.error( 'Panic error message:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) );
+            },
+            "__extjs_72fc447820458c720c68d0d8e078ede631edd723": function($0, $1, $2) {
+                console.error( 'Panic location:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) + ':' + $2 );
             },
             "Math_tan": function($0) {
                 return Math.tan( $0 );
